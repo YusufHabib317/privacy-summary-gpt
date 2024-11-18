@@ -5,11 +5,11 @@ const API_KEY = process.env.OPENAI_API_KEY;
 const API_URL = 'https://api.openai.com/v1/chat/completions';
 
 export async function POST(req: Request) {
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-  };
+  const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+};
   try {
 
     const { text, type } = await req.json();
@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     if (!text) {
       return NextResponse.json(
         { error: 'No text provided' },
-        { status: 400, headers }
+        { status: 400, headers:corsHeaders }
       );
     }
 
@@ -70,13 +70,13 @@ export async function POST(req: Request) {
       score: parseInt(sections[4]?.match(/\d+/)?.[0] || '0'),
     };
 
-    return NextResponse.json(analysis, { headers });
+    return NextResponse.json(analysis, { headers:corsHeaders });
   } catch (error) {
     console.error('API Error:', error);
     let errorMessage = 'Failed to process document';
     if (axios.isAxiosError(error)) {
       errorMessage = error.response?.data?.error?.message || error.message;
     }
-    return NextResponse.json({ error: errorMessage }, { status: 500, headers });
+    return NextResponse.json({ error: errorMessage }, { status: 500, headers:corsHeaders });
   }
 }
