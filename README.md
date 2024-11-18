@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Privacy Policy & Terms Analyzer API
 
-## Getting Started
+A Next.js API service that analyzes privacy policies and terms of service using OpenAI's GPT API.
 
-First, run the development server:
+## Setup
 
+1. Clone and install dependencies:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone [repository-url]
+cd [project-name]
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Create `.env.local`:
+```
+OPENAI_API_KEY=your_api_key_here
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Run development server:
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## API Endpoint
 
-## Learn More
+### POST /api/gpt
 
-To learn more about Next.js, take a look at the following resources:
+Analyzes privacy policies or terms of service documents.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### Request
+```json
+{
+  "text": "privacy policy text here",
+  "type": "privacy" | "terms"
+}
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#### Response
+```json
+{
+  "summary": "Brief summary",
+  "keyPoints": ["Point 1", "Point 2"],
+  "implications": ["Implication 1", "Implication 2"],
+  "concerns": ["Concern 1", "Concern 2"],
+  "score": 7
+}
+```
 
-## Deploy on Vercel
+## Project Structure
+```
+src/
+  app/
+    api/
+      gpt/
+        route.ts  # API endpoint handler
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Key Files
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`route.ts`:
+```typescript
+import { NextResponse } from 'next/server';
+import OpenAI from 'openai';
+
+export async function POST(req: Request) {
+  // Handles document analysis
+}
+```
+
+## Environment Variables
+
+|
+ Variable 
+|
+ Description 
+|
+|
+----------
+|
+-------------
+|
+|
+ OPENAI_API_KEY 
+|
+ Your OpenAI API key 
+|
+
+## Error Handling
+
+- 400: Missing text
+- 500: OpenAI API errors
+- 403: Region restrictions
+
+## CORS Configuration
+
+Configured to accept requests from:
+- Chrome extension
+- localhost development
